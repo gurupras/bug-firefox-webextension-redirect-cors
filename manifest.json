@@ -1,0 +1,39 @@
+{
+
+  "manifest_version": 2,
+  "name": "Firefox redirect CORS bug",
+  "version": "0.0.1",
+  "description": "Firefox complains about CORS for a moz-extension:// redirect",
+  "icons": {
+    "64": "icons/icon-64x64.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{f2ea6d63-8bcb-4a24-94e2-8c0160c904dc}"
+    }
+  },
+  "permissions": [
+    "webRequest", "webRequestBlocking",
+    "*://*/*"
+  ],
+  "web_accessible_resources": [
+    "ATVWebPlayer.js"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "matches": ["*://*.amazon.com/**", "*://*.primevideo.com/**"],
+      "run_at": "document_start",
+      "js": ["common.js", "service-worker-remover.js"]
+    }
+  ],
+
+  "background": {
+    "scripts": [
+      "utils-bg.js",
+      "common.js",
+      "bg.js"
+    ]
+  }
+}
